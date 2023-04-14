@@ -6,6 +6,7 @@ function theme() {
     var twitterIcon = document.getElementById("twitterIcon")
     var websiteIcon = document.getElementById("websiteIcon")
     var companyIcon = document.getElementById("companyIcon")
+    var pandaError = document.getElementById("pandaErrorImg")
     element.classList.toggle("dark");
     if (element.classList == "dark") {
         themeName.innerText = "LIGHT";
@@ -14,6 +15,7 @@ function theme() {
         twitterIcon.src = "./assets/icon-twitter-dark.svg"
         websiteIcon.src = "./assets/icon-website-dark.svg"
         companyIcon.src = "./assets/icon-company-dark.svg"
+        pandaError.src = "./assets/404-dark.svg"
     } else if (element.classList != "dark") {
         themeName.innerText = "DARK";
         themeIcon.src = "./assets/icon-moon.svg"
@@ -21,9 +23,14 @@ function theme() {
         twitterIcon.src = "./assets/icon-twitter.svg"
         websiteIcon.src = "./assets/icon-website.svg"
         companyIcon.src = "./assets/icon-company.svg"
+        pandaError.src = "./assets/404.svg"
     }
 }
 window.getDevDetails = function () {
+    document.querySelector(".main-section-left").style.display = "block"
+    document.querySelector(".main-section-right").style.display = "block"
+    document.querySelector(".pandaError").style.display = "none"
+    document.querySelector("#illustration").style.display = "none"
     let userName = document.querySelector("#username").value;
     let gitName = document.getElementById("git-name")
     let gitUsername = document.getElementById("git-username")
@@ -49,13 +56,12 @@ window.getDevDetails = function () {
             }
             let monthStr = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",]
             let month = monthStr[monthNum]
-            console.log(monthNum, month)
             let theDate = date.slice(8, 10) + " " + month + " " + date.slice(0, 4)
             // ----------------------------------MONTH---------------------MONTH--------------------MONTH----------------------------------------------------
             // ----------------------------------------URL---------------------URL--------------------URL----------------------------------------------------
             let url = response.data.html_url.slice(8)
             // ----------------------------------------URL---------------------URL--------------------URL----------------------------------------------------
-            // ----------------------------CAPITALIZ---------------------CAPITALIZ--------------------CAPITALIZ----------------------------------------------
+            // ----------------------------CAPITALIZE---------------------CAPITALIZE--------------------CAPITALIZE----------------------------------------------
             let location = []
             if (response.data.location !== null && response.data.location !== undefined) {
                 let tempLoc = response.data.location
@@ -66,7 +72,7 @@ window.getDevDetails = function () {
                 }
                 location = location.join(" ")
             }
-            // ----------------------------CAPITALIZ---------------------CAPITALIZ--------------------CAPITALIZ----------------------------------------------
+            // ----------------------------CAPITALIZE---------------------CAPITALIZE--------------------CAPITALIZE----------------------------------------------
             gitName.innerHTML = response.data.name
             gitUsername.innerHTML = "@" + response.data.login
             gitBio.innerHTML = response.data.bio
@@ -74,9 +80,12 @@ window.getDevDetails = function () {
             gitFollowers.innerHTML = response.data.followers
             gitFollowing.innerHTML = response.data.following
             gitLocation.innerHTML = location
-            gitTwitter.innerHTML = response.data.twitter_username
+            gitTwitter.href = "https://twitter.com/" + response.data.twitter_username
+            gitTwitter.innerHTML = "@" + response.data.twitter_username
+            gitTwitter.target = "_blank"
             gitUrl.innerHTML = url
             gitUrl.href = response.data.html_url
+            gitUrl.target = "_blank"
             gitCompany.innerHTML = response.data.company
             gitProfileImage1.src = response.data.avatar_url
             gitProfileImage2.src = response.data.avatar_url
@@ -84,8 +93,9 @@ window.getDevDetails = function () {
             if (!gitBio.innerHTML) {
                 gitBio.innerHTML = "No Bio"
             }
-            if (!gitTwitter.innerHTML) {
+            if (!response.data.twitter_username) {
                 gitTwitter.innerHTML = "Not Available"
+                gitTwitter.href = "#"
             }
             if (!gitLocation.innerHTML) {
                 gitLocation.innerHTML = "Not Available"
@@ -96,5 +106,8 @@ window.getDevDetails = function () {
         })
         .catch(function (error) {
             console.log(error.data);
+            document.querySelector(".main-section-left").style.display = "none"
+            document.querySelector(".main-section-right").style.display = "none"
+            document.querySelector(".pandaError").style.display = "block"
         })
 }

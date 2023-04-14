@@ -59,6 +59,7 @@ body {
 
 .main {
     border-radius: 15px;
+    margin-bottom: 15px;
 }
 
 h1 {
@@ -134,10 +135,22 @@ a {
     line-height: var(--body-line-height--);
 }
 
+.pandaError{
+    display: none;
+    width: 70%;
+    margin: auto auto;
+}
+
 .search {
     border-radius: 20px;
     margin-top: 36px;
     margin-bottom: 24px;
+}
+
+#illustration{
+    color: var(--clr-blue-lm--);
+    padding-left: 20px;
+    padding-bottom: 10px;
 }
 
 span {
@@ -174,7 +187,7 @@ header-section img {
     width: 20px;
 }
 
-.website a {
+.website a, .twitter a {
     color: var(--clr-dark-blue-lm--);
 }
 
@@ -282,7 +295,7 @@ body {
 
 @media only screen and (max-width: 779px) {
     .main-section-left {
-        display: none;
+        display: none !important;
     }
 
     .contact {
